@@ -18,8 +18,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button dbAdd, dbRead, dbClear;
-    EditText dbName, dbMail;
+    Button dbAdd,  dbClear;
+    EditText dbName, dbSurname, dbPost, dbCity;
 
     DBHelper dbHelper;
     SQLiteDatabase database;
@@ -29,19 +29,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        dbName = findViewById(R.id.dbName);
-        dbMail = findViewById(R.id.dbMail);
         dbAdd = findViewById(R.id.dbAdd);
         dbAdd.setOnClickListener(this);
         dbClear = findViewById(R.id.dbClear);
         dbClear.setOnClickListener(this);
-        //dbRead = findViewById(R.id.dbRead);
-        dbRead.setOnClickListener(this);
 
+        dbName = findViewById(R.id.dbName);
+        dbSurname = findViewById(R.id.dbSurname);
+        dbPost = findViewById(R.id.dbPost);
+        dbCity = findViewById(R.id.dbCity);
 
         dbHelper = new DBHelper(this);
         database =  dbHelper.getWritableDatabase();
+        dbName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                dbName.setHint("");
+            else
+                dbName.setHint("Имя");
+        });
+
+        dbSurname.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                dbSurname.setHint("");
+            else
+                dbSurname.setHint("Фамилия");
+        });
+
+        dbPost.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                dbPost.setHint("");
+            else
+                dbPost.setHint("Должность");
+        });
+
+        dbCity.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                dbCity.setHint("");
+            else
+                dbCity.setHint("Город");
+        });
         UpdateTable();
     }
     public  void  UpdateTable(){
@@ -50,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
             int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-            int mailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
+            int surnameIndex = cursor.getColumnIndex(DBHelper.KEY_SURNAME);
+            int postIndex = cursor.getColumnIndex(DBHelper.KEY_POST);
+            int cityIndex = cursor.getColumnIndex(DBHelper.KEY_CITY);
             TableLayout dbOutput = findViewById(R.id.dbOutput);
             dbOutput.removeAllViews();
             do {
@@ -70,11 +98,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 outputNAme.setText(cursor.getString(nameIndex));
                 dbOutputRow.addView(outputNAme);
 
-                TextView outputMail= new TextView(this);
+                TextView outputSurname= new TextView(this);
                 params.weight= 3.0f;
-                outputMail.setLayoutParams(params);
-                outputMail.setText(cursor.getString(mailIndex));
-                dbOutputRow.addView(outputMail);
+                outputSurname.setLayoutParams(params);
+                outputSurname.setText(cursor.getString(surnameIndex));
+                dbOutputRow.addView(outputSurname);
+
+                TextView outputPost= new TextView(this);
+                params.weight= 3.0f;
+                outputPost.setLayoutParams(params);
+                outputPost.setText(cursor.getString(postIndex));
+                dbOutputRow.addView(outputPost);
+
+                TextView outputCity= new TextView(this);
+                params.weight= 3.0f;
+                outputCity.setLayoutParams(params);
+                outputCity.setText(cursor.getString(cityIndex));
+                dbOutputRow.addView(outputCity);
 
 
                 Button deleteBtn = new Button(this);
@@ -105,13 +145,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.dbAdd:
                 String name = dbName.getText().toString();
-                String email = dbMail.getText().toString();
+                String surname = dbSurname.getText().toString();
+                String post = dbPost.getText().toString();
+                String city = dbCity.getText().toString();
                 contentValues = new ContentValues();
                 contentValues.put(DBHelper.KEY_NAME, name);
-                contentValues.put(DBHelper.KEY_MAIL, email);
+                contentValues.put(DBHelper.KEY_SURNAME, surname);
+                contentValues.put(DBHelper.KEY_POST, post);
+                contentValues.put(DBHelper.KEY_CITY, city);
 
                 database.insert(DBHelper.TABLE_CONTACTS, null, contentValues);
                 UpdateTable();
+                dbName.setText("");
+                dbSurname.setText("");
+                dbPost.setText("");
+                dbCity.setText("");
                 break;
 
             case R.id.dbClear:
@@ -132,14 +180,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (cursorUpdater.moveToFirst()) {
                     int idIndex = cursorUpdater.getColumnIndex(DBHelper.KEY_ID);
                     int nameIndex = cursorUpdater.getColumnIndex(DBHelper.KEY_NAME);
-                    int mailIndex = cursorUpdater.getColumnIndex(DBHelper.KEY_MAIL);
+                    int surnameIndex = cursorUpdater.getColumnIndex(DBHelper.KEY_SURNAME);
+                    int postIndex = cursorUpdater.getColumnIndex(DBHelper.KEY_POST);
+                    int cityIndex = cursorUpdater.getColumnIndex(DBHelper.KEY_CITY);
                     int realID=1;
                     do {
                         if (cursorUpdater.getInt(idIndex)>realID)
                         {
                             contentValues.put(DBHelper.KEY_ID, realID);
                             contentValues.put(DBHelper.KEY_NAME, cursorUpdater.getString(nameIndex));
-                            contentValues.put(DBHelper.KEY_MAIL, cursorUpdater.getString(mailIndex));
+                            contentValues.put(DBHelper.KEY_SURNAME, cursorUpdater.getString(surnameIndex));
+                            contentValues.put(DBHelper.KEY_POST, cursorUpdater.getString(postIndex));
+                            contentValues.put(DBHelper.KEY_CITY, cursorUpdater.getString(cityIndex));
                             database.replace(DBHelper.TABLE_CONTACTS, null, contentValues);
                         }
                         realID++;
@@ -149,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     UpdateTable();
                 }
+                cursorUpdater.close();
                 break; 
         }
     }

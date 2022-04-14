@@ -12,17 +12,33 @@
         android:id="@+id/dbName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"
+        android:hint="Имя"
         app:layout_constraintTop_toTopOf="parent"></EditText>
 
     <EditText
-        android:id="@+id/dbMail"
+        android:id="@+id/dbSurname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="Фамилия"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dbName"></EditText>
+    <EditText
+        android:id="@+id/dbPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Должность"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dbSurname"></EditText>
+    <EditText
+        android:id="@+id/dbCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Город"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dbPost"></EditText>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -30,7 +46,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dbMail">
+        app:layout_constraintTop_toBottomOf="@+id/dbCity">
 
         <Button
             android:id="@+id/dbAdd"
