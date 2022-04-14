@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dbAdd.setOnClickListener(this);
         dbClear = findViewById(R.id.dbClear);
         dbClear.setOnClickListener(this);
-        dbRead = findViewById(R.id.dbRead);
+        //dbRead = findViewById(R.id.dbRead);
         dbRead.setOnClickListener(this);
 
 
@@ -147,8 +147,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (cursorUpdater.moveToLast()){
                         database.delete(DBHelper.TABLE_CONTACTS,DBHelper.KEY_ID + " = ?", new String[]{cursorUpdater.getString(idIndex)});
                     }
+                    UpdateTable();
                 }
-                break;
+                break; 
         }
     }
 }
