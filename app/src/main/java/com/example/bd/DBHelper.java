@@ -9,12 +9,17 @@ public class DBHelper  extends SQLiteOpenHelper{
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "employeeDb";
     public static final String TABLE_CONTACTS = "employee";
+    public static final String TABLE_USERS = "user";
 
     public static final String KEY_ID = "_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_SURNAME = "surname";
     public static final String KEY_POST = "post";
     public static final String KEY_CITY = "city";
+
+    public static final String KEY_ID1 = "_id";
+    public static final String KEY_LOGIN = "login";
+    public static final String KEY_PASSWORD = "password";
 
 
     public DBHelper(Context context) {
@@ -27,13 +32,15 @@ public class DBHelper  extends SQLiteOpenHelper{
                 + " integer primary key," + KEY_NAME + " text,"
                 + KEY_SURNAME + " text," + KEY_POST + " text,"
                 + KEY_CITY + " text"+")");
+        db.execSQL("create table " + TABLE_USERS + "(" + KEY_ID1
+                + " integer primary key," + KEY_LOGIN + " text," + KEY_PASSWORD + " text"+")");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + TABLE_CONTACTS);
-
+        db.execSQL("drop table if exists " + TABLE_USERS);
         onCreate(db);
 
     }
