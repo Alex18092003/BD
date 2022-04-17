@@ -1,6 +1,6 @@
 package com.example.bd;
 
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -33,8 +33,8 @@ public class DBHelper  extends SQLiteOpenHelper{
                 + KEY_SURNAME + " text," + KEY_POST + " text,"
                 + KEY_CITY + " text"+")");
         db.execSQL("create table " + TABLE_USERS + "(" + KEY_ID1
-                + " integer primary key," + KEY_LOGIN + " text," + KEY_PASSWORD + " text"+")");
-
+                + " integer primary key," + KEY_LOGIN + " text,"
+                + KEY_PASSWORD + " text"+")");
     }
 
     @Override
@@ -42,6 +42,5 @@ public class DBHelper  extends SQLiteOpenHelper{
         db.execSQL("drop table if exists " + TABLE_CONTACTS);
         db.execSQL("drop table if exists " + TABLE_USERS);
         onCreate(db);
-
     }
 }
